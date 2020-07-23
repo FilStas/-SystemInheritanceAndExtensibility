@@ -12,9 +12,11 @@ public class ProductManager {
     public Product[] getAll() {
         Product[] result = repository.findAll();
         for (int i = 0; i < result.length ; i++) {
+            int index = products.length;
+            result[i] = products[index];
 
         }
-        return products;
+        return result;
     }
 
     public void add(Product product) {
