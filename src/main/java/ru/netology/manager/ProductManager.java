@@ -6,7 +6,16 @@ import ru.netology.domain.Smartphone;
 import ru.netology.repository.ProductRepository;
 
 public class ProductManager {
+    private Product[] products = new Product[0];
     private ProductRepository repository;
+
+    public Product[] getAll() {
+        Product[] result = repository.findAll();
+        for (int i = 0; i < result.length ; i++) {
+
+        }
+        return products;
+    }
 
     public void add(Product product) {
         repository.save(product);
