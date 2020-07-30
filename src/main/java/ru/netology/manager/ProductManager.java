@@ -6,17 +6,11 @@ import ru.netology.domain.Smartphone;
 import ru.netology.repository.ProductRepository;
 
 public class ProductManager {
-    private Product[] products = new Product[0];
-    private ProductRepository repository;
+    private final Product[] products = new Product[0];
+    private final ProductRepository repository;
 
-    public Product[] getAll() {
-        Product[] result = repository.findAll();
-        for (int i = 0; i < result.length ; i++) {
-            int index = products.length;
-            result[i] = products[index];
-
-        }
-        return result;
+    public ProductManager(ProductRepository repository) {
+        this.repository = repository;
     }
 
     public void add(Product product) {
@@ -52,9 +46,7 @@ public class ProductManager {
             if (smartphone.getName().equalsIgnoreCase(search)) {
                 return true;
             }
-            if (smartphone.getManufacturer().equalsIgnoreCase(search)) {
-                return true;
-            }
+            return smartphone.getManufacturer().equalsIgnoreCase(search);
         }
 
         return false;

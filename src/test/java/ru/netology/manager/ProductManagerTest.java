@@ -31,14 +31,15 @@ class ProductManagerTest {
     private Smartphone seventh = new Smartphone(16, "Huawei P30", 31000, "Huawei");
     private Smartphone eighth = new Smartphone(17, "Redmi Note 8T", 13000, "Redmi");
 
+
     @Test
-    void add() {
+    void shouldFindAndAddABookByName() {
         Product[] returned = new Product[]{first};
         doReturn(returned).when(repository).findAll();
 
         manager.add(first);
         Product[] expected = new Product[]{first};
-        Product[] actual = manager.getAll();
+        Product[] actual = manager.searchBy("Унесенные ветром");
 
         assertArrayEquals(expected, actual);
         verify(repository).save(any());
@@ -47,10 +48,31 @@ class ProductManagerTest {
     }
 
     @Test
-    void searchBy() {
+    void shouldFindAndAddASmartphoneByName() {
+        Product[] returned = new Product[] {seventh};
+        doReturn(returned).when(repository).findAll();
+
+        manager.add(seventh);
+        Product[] expected = new Product[] {seventh};
+        Product[] actual = manager.searchBy("Huawei P30");
+
+        assertArrayEquals(expected, actual);
+        verify(repository).save(any());
+        verify(repository).findAll();
     }
 
     @Test
-    void matches() {
+    void shouldСheckIfTheProductMatchesTheSearchQuery(){
+        Product[] returned = new Smartphone[] {seventh};
+        doReturn(returned).when(repository).findAll();
+
+        manager.add(seventh);
+        Product[] expected = new Product[] {seventh};
+        Product[] actual = manager.matches(Smartphone, "Huawei P30");
+
+        assertArrayEquals(expected, actual);
+        verify(repository).save(any());
+        verify(repository).findAll();
     }
+
 }
