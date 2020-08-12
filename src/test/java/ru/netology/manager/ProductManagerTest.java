@@ -10,7 +10,7 @@ import ru.netology.domain.Product;
 import ru.netology.domain.Smartphone;
 import ru.netology.repository.ProductRepository;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
@@ -62,17 +62,39 @@ class ProductManagerTest {
     }
 
     @Test
-    void shouldСheckIfTheProductMatchesTheSearchQuery(){
-        Product[] returned = new Smartphone[] {seventh};
-        doReturn(returned).when(repository).findAll();
+    void shouldCheckIfTheProductMatchesTheSearchQuery(){
+        manager.add(fifth);
+        boolean actual = manager.matches(fifth, "Вино из одуванчиков");
 
-        manager.add(seventh);
-        Product[] expected = new Product[] {seventh};
-        Product[] actual = manager.matches(Smartphone, "Huawei P30");
-
-        assertArrayEquals(expected, actual);
+        assertTrue(actual);
         verify(repository).save(any());
-        verify(repository).findAll();
+    }
+
+    @Test
+    void shouldCheckWhetherTheProductMatchesTheAuthorField() {
+        manager.add(second);
+        boolean actual = manager.matches(second, "Михаил Булгаков");
+
+        assertTrue(actual);
+        verify(repository).save(any());
+    }
+
+    @Test
+    void shouldCheckWhetherTheProductMatchesTheManufacturerField() {
+        manager.add(sixth);
+        boolean actual = manager.matches(sixth, "Apple");
+
+        assertTrue(actual);
+        verify(repository).save(any());
+    }
+
+    @Test
+    void shouldCheckWhetherTheProductMatchesTheManufacturer() {
+        manager.add(sixth);
+        boolean actual = manager.matches(third, "Redmi");
+
+        assertFalse(actual);
+        verify(repository).save(any());
     }
 
 }
