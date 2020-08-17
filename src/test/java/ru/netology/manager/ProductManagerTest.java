@@ -64,6 +64,11 @@ class ProductManagerTest {
     }
 
     @Test
+    void shouldFindAll(){
+
+    }
+
+    @Test
     void shouldFindAndAddASmartphoneByName() {
         Product[] returned = new Product[]{seventh};
         doReturn(returned).when(repository).findAll();
