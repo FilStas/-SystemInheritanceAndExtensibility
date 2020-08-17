@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.netology.domain.Book;
+import ru.netology.domain.Game;
 import ru.netology.domain.Product;
 import ru.netology.domain.Smartphone;
 import ru.netology.repository.ProductRepository;
@@ -30,7 +31,7 @@ class ProductManagerTest {
     private Smartphone sixth = new Smartphone(15, "iPhone XR", 45000, "Apple");
     private Smartphone seventh = new Smartphone(16, "Huawei P30", 31000, "Huawei");
     private Smartphone eighth = new Smartphone(17, "Redmi Note 8T", 13000, "Redmi");
-
+    private Game ninth = new Game(18, "Sega", 15000);
 
     @Test
     void shouldFindAndAddABookByName() {
@@ -48,12 +49,27 @@ class ProductManagerTest {
     }
 
     @Test
+    void shouldFindAndAddABookByAuthor() {
+        Product[] returned = new Product[]{third};
+        doReturn(returned).when(repository).findAll();
+
+        manager.add(third);
+        Product[] expected = new Product[]{third};
+        Product[] actual = manager.searchBy("Эмили Бронте");
+
+        assertArrayEquals(expected, actual);
+        verify(repository).save(any());
+        verify(repository).findAll();
+
+    }
+
+    @Test
     void shouldFindAndAddASmartphoneByName() {
-        Product[] returned = new Product[] {seventh};
+        Product[] returned = new Product[]{seventh};
         doReturn(returned).when(repository).findAll();
 
         manager.add(seventh);
-        Product[] expected = new Product[] {seventh};
+        Product[] expected = new Product[]{seventh};
         Product[] actual = manager.searchBy("Huawei P30");
 
         assertArrayEquals(expected, actual);
@@ -62,7 +78,7 @@ class ProductManagerTest {
     }
 
     @Test
-    void shouldCheckIfTheProductMatchesTheSearchQuery(){
+    void shouldCheckIfTheProductMatchesTheSearchQuery() {
         manager.add(fifth);
         boolean actual = manager.matches(fifth, "Вино из одуванчиков");
 
@@ -90,8 +106,8 @@ class ProductManagerTest {
 
     @Test
     void shouldCheckWhetherTheProductMatchesTheManufacturer() {
-        manager.add(sixth);
-        boolean actual = manager.matches(third, "Redmi");
+        manager.add(ninth);
+        boolean actual = manager.matches(ninth,"Sega");
 
         assertFalse(actual);
         verify(repository).save(any());
