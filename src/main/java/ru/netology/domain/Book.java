@@ -22,9 +22,6 @@ public class Book extends Product {
         return author;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -38,5 +35,9 @@ public class Book extends Product {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), author);
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }
