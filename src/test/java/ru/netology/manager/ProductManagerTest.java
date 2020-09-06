@@ -63,10 +63,6 @@ class ProductManagerTest {
 
     }
 
-    @Test
-    void shouldFindAll(){
-
-    }
 
     @Test
     void shouldFindAndAddASmartphoneByName() {
@@ -106,6 +102,15 @@ class ProductManagerTest {
         boolean actual = manager.matches(sixth, "Apple");
 
         assertTrue(actual);
+        verify(repository).save(any());
+    }
+
+    @Test
+    void shouldCheckWhether() {
+        manager.add(fourth);
+        boolean actual = manager.matches(fourth, "Redmi");
+
+        assertFalse(actual);
         verify(repository).save(any());
     }
 
