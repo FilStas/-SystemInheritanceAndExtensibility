@@ -39,6 +39,20 @@ public class Product {
     public void setCost(int cost) {
         this.cost = cost;
     }
+    public boolean matches(String search) {
+        Book book = new Book();
+            if (book.getName().equalsIgnoreCase(search)) {
+                return true;
+            }
+
+            Smartphone smartphone = new Smartphone();
+            if (smartphone.getName().equalsIgnoreCase(search)) {
+                return true;
+            }
+
+
+        return false;
+    }
 
     @Override
     public boolean equals(Object o) {

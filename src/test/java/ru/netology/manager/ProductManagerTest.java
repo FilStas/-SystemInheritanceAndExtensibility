@@ -23,6 +23,8 @@ class ProductManagerTest {
 
     @InjectMocks
     private ProductManager manager;
+    private Book book;
+    private Smartphone smartphone;
     private Book first = new Book(10, "Унесенные ветром", 670, "Маргарет Митчелл");
     private Book second = new Book(11, "Мастер и Маргарита", 760, "Михаил Булгаков");
     private Book third = new Book(12, "Грозовой перевал", 540, "Эмили Бронте");
@@ -64,7 +66,7 @@ class ProductManagerTest {
     }
 
     @Test
-    void shouldFindAll(){
+    void shouldFindAll() {
 
     }
 
@@ -85,7 +87,7 @@ class ProductManagerTest {
     @Test
     void shouldCheckIfTheProductMatchesTheSearchQuery() {
         manager.add(fifth);
-        boolean actual = manager.matches(fifth, "Вино из одуванчиков");
+        boolean actual =book.matches("Вино из одуванчиков");
 
         assertTrue(actual);
         verify(repository).save(any());
@@ -94,7 +96,7 @@ class ProductManagerTest {
     @Test
     void shouldCheckWhetherTheProductMatchesTheAuthorField() {
         manager.add(second);
-        boolean actual = manager.matches(second, "Михаил Булгаков");
+        boolean actual = book.matches("Михаил Булгаков");
 
         assertTrue(actual);
         verify(repository).save(any());
@@ -103,7 +105,7 @@ class ProductManagerTest {
     @Test
     void shouldCheckWhetherTheProductMatchesTheManufacturerField() {
         manager.add(sixth);
-        boolean actual = manager.matches(sixth, "Apple");
+        boolean actual = smartphone.matches("Apple");
 
         assertTrue(actual);
         verify(repository).save(any());
@@ -112,7 +114,7 @@ class ProductManagerTest {
     @Test
     void shouldCheckWhetherTheProductMatchesTheManufacturer() {
         manager.add(ninth);
-        boolean actual = manager.matches(ninth,"Sega");
+        boolean actual = smartphone.matches("Sega");
 
         assertFalse(actual);
         verify(repository).save(any());
