@@ -6,7 +6,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.netology.domain.Book;
-import ru.netology.domain.Game;
 import ru.netology.domain.Product;
 import ru.netology.domain.Smartphone;
 import ru.netology.repository.ProductRepository;
@@ -23,8 +22,6 @@ class ProductManagerTest {
 
     @InjectMocks
     private ProductManager manager;
-    private Book book;
-    private Smartphone smartphone;
     private Book first = new Book(10, "Унесенные ветром", 670, "Маргарет Митчелл");
     private Book second = new Book(11, "Мастер и Маргарита", 760, "Михаил Булгаков");
     private Book third = new Book(12, "Грозовой перевал", 540, "Эмили Бронте");
@@ -33,7 +30,6 @@ class ProductManagerTest {
     private Smartphone sixth = new Smartphone(15, "iPhone XR", 45000, "Apple");
     private Smartphone seventh = new Smartphone(16, "Huawei P30", 31000, "Huawei");
     private Smartphone eighth = new Smartphone(17, "Redmi Note 8T", 13000, "Redmi");
-    private Game ninth = new Game(18, "Sega", 15000);
 
     @Test
     void shouldFindAndAddABookByName() {
@@ -65,10 +61,6 @@ class ProductManagerTest {
 
     }
 
-    @Test
-    void shouldFindAll() {
-
-    }
 
     @Test
     void shouldFindAndAddASmartphoneByName() {
@@ -85,36 +77,59 @@ class ProductManagerTest {
     }
 
     @Test
-    void shouldCheckIfTheProductMatchesTheSearchQuery() {
+    void shouldFindAndAddASmartphoneByManufacturer() {
+        Product[] returned = new Product[]{seventh};
+        doReturn(returned).when(repository).findAll();
+
+        manager.add(seventh);
+        Product[] expected = new Product[]{seventh};
+        Product[] actual = manager.searchBy("Huawei");
+
+        assertArrayEquals(expected, actual);
+        verify(repository).save(any());
+        verify(repository).findAll();
+    }
+
+    @Test
+    void shouldCheckIfTheBookMatchesTheSearchByName() {
         manager.add(fifth);
-        boolean actual =book.matches("Вино из одуванчиков");
+        boolean actual = fifth.matches("Вино из одуванчиков");
 
         assertTrue(actual);
         verify(repository).save(any());
     }
 
     @Test
-    void shouldCheckWhetherTheProductMatchesTheAuthorField() {
+    void shouldCheckIfTheBookMatchesTheSearchByAuthor() {
         manager.add(second);
-        boolean actual = book.matches("Михаил Булгаков");
+        boolean actual = second.matches("Михаил Булгаков");
 
         assertTrue(actual);
         verify(repository).save(any());
     }
 
     @Test
-    void shouldCheckWhetherTheProductMatchesTheManufacturerField() {
+    void shouldCheckIfTheSmartphoneMatchesTheSearchByManufacturer() {
         manager.add(sixth);
-        boolean actual = smartphone.matches("Apple");
+        boolean actual = sixth.matches("Apple");
 
         assertTrue(actual);
         verify(repository).save(any());
     }
 
     @Test
-    void shouldCheckWhetherTheProductMatchesTheManufacturer() {
-        manager.add(ninth);
-        boolean actual = smartphone.matches("Sega");
+    void shouldCheckIfTheSmartphoneMatchesTheSearchByName(){
+        manager.add(eighth);
+        boolean actual = eighth.matches("Huawei P30");
+
+        assertTrue(actual);
+        verify(repository).save(any());
+    }
+
+    @Test
+    void shouldCheckIfTheBookMatchesTheSearchByManufacturer() {
+        manager.add(fourth);
+        boolean actual = fourth.matches("Redmi");
 
         assertFalse(actual);
         verify(repository).save(any());

@@ -3,7 +3,6 @@ package ru.netology.domain;
 import java.util.Objects;
 
 public class Book extends Product {
-    Book book = new Book();
     private String author;
 
     public Book() {
@@ -24,7 +23,7 @@ public class Book extends Product {
     }
     @Override
     public boolean matches(String search) {
-        return super.matches(search) || book.getAuthor().equalsIgnoreCase(search);
+        return super.matches(search) || author.equalsIgnoreCase(search);
     }
 
     @Override
