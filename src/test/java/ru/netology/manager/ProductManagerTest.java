@@ -79,6 +79,22 @@ class ProductManagerTest {
     }
 
     @Test
+    void shouldDoesNotFindAProductInSearchBar() {
+        Product[] returned = new Product[]{eighth};
+        doReturn(returned).when(repository).findAll();
+
+        manager.add(eighth);
+        Product[] expected = new Product[] {};
+        Product[] actual = manager.searchBy("Sega");
+
+
+        assertArrayEquals(expected,actual);
+        verify(repository).save(any());
+        verify(repository).findAll();
+    }
+
+
+    @Test
     void shouldCheckIfTheProductMatchesTheSearchQuery() {
         manager.add(fifth);
         boolean actual = manager.matches(fifth, "Вино из одуванчиков");
@@ -117,7 +133,7 @@ class ProductManagerTest {
     @Test
     void shouldCheckWhetherTheProductMatchesTheManufacturer() {
         manager.add(ninth);
-        boolean actual = manager.matches(ninth,"Sega");
+        boolean actual = manager.matches(ninth, "Sega");
 
         assertFalse(actual);
         verify(repository).save(any());
