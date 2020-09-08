@@ -21,6 +21,7 @@ public class Book extends Product {
     public String getAuthor() {
         return author;
     }
+
     @Override
     public boolean matches(String search) {
         return super.matches(search) || author.equalsIgnoreCase(search);

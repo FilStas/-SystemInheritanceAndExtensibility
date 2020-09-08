@@ -120,7 +120,7 @@ class ProductManagerTest {
     @Test
     void shouldCheckIfTheSmartphoneMatchesTheSearchByName(){
         manager.add(eighth);
-        boolean actual = eighth.matches("Huawei P30");
+        boolean actual = eighth.matches("Redmi Note 8T");
 
         assertTrue(actual);
         verify(repository).save(any());
